@@ -34,8 +34,8 @@ app.post('/api/login', function(req, res) {
     console.log(user,pass)
     let UserRef = db.collection('Users').where("user","==",user).where("pass","==",pass);
     UserRef.get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
+    .then(function(q) {
+      q.forEach(function(doc) {
             console.log(doc.data())
             if(doc.exists){
               res.status(200).json({"status":"1"})
@@ -43,7 +43,7 @@ app.post('/api/login', function(req, res) {
             }
           })
           if(status==0){
-            res.status(200).json({"status":"0"})
+            res.status(403).json({"status":"0"})
           }
       });
     });

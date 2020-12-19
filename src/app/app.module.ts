@@ -7,20 +7,27 @@ import { HomePageComponent } from './Home/home-page/home-page.component';
 import { ConsumerComponent } from './Home/consumer/consumer.component';
 import { BoardComponent } from './Home/board/board.component';
 import { Routes, RouterModule } from '@angular/router';
+import { ConsumregComponent } from './Home/consumreg/consumreg.component';
+import { SidebarComponent } from './Board/sidebar/sidebar.component';
+import { DashboardComponent } from './Board/dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent, children: [
     { path: '', component: ConsumerComponent },
-    { path: 'board', component: BoardComponent }
-  ]}
-
+    { path: 'board', component: BoardComponent },
+    { path: 'register', component: ConsumregComponent },
+  ]},
+  { path: 'dash', component: SidebarComponent }
 ];
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     ConsumerComponent,
-    BoardComponent
+    BoardComponent,
+    ConsumregComponent,
+    SidebarComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

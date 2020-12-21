@@ -2,11 +2,7 @@ const express = require('express');
 const path = require('path')
 var cors = require('cors')
 const app = express();
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
-app.use(cookieParser());
-app.use(session({ secret: "SomethingThatNot@Break" }));
 app.use(cors());
 const body_parser = require('body-parser');
 app.use(body_parser.json());
@@ -15,6 +11,7 @@ app.use(body_parser.urlencoded({
 }));
 var admin = require("firebase-admin");
 var serviceAccount = require("./smarte-8f70f-firebase-adminsdk-dc8il-f047b8760f.json");
+const { ElementSchemaRegistry } = require('@angular/compiler');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://smarte-8f70f.firebaseio.com"
@@ -31,6 +28,20 @@ app.get('/*', function(req, res) {
 
 const accessTokenSecret = 'youraccesstokensecret';
 
+function authenticateToken(req, res, next) {
+  // Gather the jwt access token from the request header
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401) // if there isn't any token
+
+  jwt.verify(token, accessTokenSecret, (err, user) => {
+    console.log(err)
+    if (err) return res.sendStatus(403)
+    req.user = user.board
+    next() // pass the execution off to whatever request the client intended
+  })
+}
+
 
 app.post('/api/login', function(req, res) {
     var user = req.body.username;
@@ -40,7 +51,6 @@ app.post('/api/login', function(req, res) {
     UserRef.get()
     .then(function(q) {
       q.forEach(function(doc) {
-            console.log(doc.data())
             if(doc.exists){
               const accessToken = jwt.sign({ username: user.username,  role: user.role }, accessTokenSecret);
               res.status(200).json({"status":"1","auth":accessToken})
@@ -61,9 +71,8 @@ app.post('/api/login', function(req, res) {
       UserRef.get()
       .then(function(q) {
         q.forEach(function(doc) {
-              console.log(doc.data())
               if(doc.exists){
-                const accessToken = jwt.sign({ username: user.username,  role: user.role }, accessTokenSecret);
+                const accessToken = jwt.sign({ board: doc.data().user }, accessTokenSecret);
               res.status(200).json({"status":"1","auth":accessToken})
                 status=1
               }
@@ -74,23 +83,18 @@ app.post('/api/login', function(req, res) {
         });
       });
 
-      app.post("/api/boarduser", function(req, res) {
-        console.log(req.session.username);
-
-        if (req.session.username === undefined) {
-            res.status(200).json({ 'status': 0 });
-        } else {
-          let UserRef = db.collection('BoardUsers').where("user","==",user);
-          UserRef.get()
-          .then(function(q) {
-            q.forEach(function(doc) {
-                  console.log(doc.data())
-                  if(doc.exists) {
-                        req.session.name = doc.data().name;
-                    }
-                    res.status(200).json({ 'status': 1, 'User': req.session.name });
+      app.post("/api/boardInfo",authenticateToken, function(req, res) {
+        let UserRef = db.collection('BoardUsers').where("user","==",req.user);
+      UserRef.get()
+      .then(function(q) {
+        q.forEach(function(doc) {
+              if(doc.exists){
+                    res.status(200).json({ 'name':doc.data().name});
+              }
+              else{
+                res.status(404).json({ 'status':'invalid user'});
+              }
+              });
+            });
                 });
-        });
-      }
-    });
-app.listen(3000);
+    app.listen(3000);

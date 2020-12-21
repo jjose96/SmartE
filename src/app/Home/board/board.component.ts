@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { environment } from "../../../environments/environment";
 
 @Component({
@@ -10,17 +10,21 @@ import { environment } from "../../../environments/environment";
 export class BoardComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
-  status;
   ngOnInit(): void {
   }
+
   OnSubmit(data){
+    let headers = new HttpHeaders();
+    headers = headers.set('x-api', 'hello');
     this.http.post<any>(environment.url+'/api/blogin', { username: data.username,
-     password: data.password }).subscribe(result => {
-      this.status = result.status;
-      if (this.status === 1){
-              localStorage.setItem('currentUser', JSON.stringify(result.auth));
-              window.location.href = '/dash';
-      }
+     password: data.password },{headers: headers}).subscribe(result => {
+      if (result.status == 1){
+              localStorage.setItem('token', result.auth);
+              location.replace('/dash');
+            }
+            else{
+              location.replace('/');
+            }
   });
 }
 }

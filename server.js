@@ -36,7 +36,7 @@ function authenticateToken(req, res, next) {
 
   jwt.verify(token, accessTokenSecret, (err, user) => {
     console.log(err)
-    if (err) return res.sendStatus(403)
+    if (err) return res.status(403).json({"message":"Access denied"})
     req.user = user.board
     next() // pass the execution off to whatever request the client intended
   })
@@ -89,10 +89,10 @@ app.post('/api/login', function(req, res) {
       .then(function(q) {
         q.forEach(function(doc) {
               if(doc.exists){
-                    res.status(200).json({ 'name':doc.data().name});
+                    res.status(200).json({ 'status':1,'name':doc.data().name});
               }
               else{
-                res.status(404).json({ 'status':'invalid user'});
+                res.status(200).json({ 'status':0,name:'invalid user'});
               }
               });
             });

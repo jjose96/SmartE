@@ -8,21 +8,25 @@ import { environment } from "../../../environments/environment";
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-
+  status=0;
   constructor(private http: HttpClient) {
     var token=localStorage.getItem('token');
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', 'Bearer '+token);
     this.http.post<any>(environment.url+'/api/boardInfo',{},{headers: headers}).subscribe(result => {
-       if (result.status == 1){
+       if (result.status==1){
+              this.status=1
              }
-             else{
-               location.replace('/');
-             }
-   });
+  });
+}
+
+loggedOut(){
+  setTimeout(function(){ location.replace('/');; }, 5000);
   }
 
+
   ngOnInit(): void {
-  }
+    }
+
 
 }

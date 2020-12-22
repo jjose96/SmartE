@@ -82,7 +82,9 @@ body {
 .page-wrapper.toggled .sidebar-wrapper {
   left: 0px;
 }
-
+.arran{
+  margin-left: 20%;
+}
 @media screen and (min-width: 768px) {
   .page-wrapper.toggled .page-content {
     padding-left: 300px;

@@ -7,9 +7,12 @@ import { HomePageComponent } from './Home/home-page/home-page.component';
 import { ConsumerComponent } from './Home/consumer/consumer.component';
 import { BoardComponent } from './Home/board/board.component';
 import { Routes, RouterModule } from '@angular/router';
-import { ConsumregComponent } from './Home/consumreg/consumreg.component';
+import { ConsumregComponent } from './Board/Consumers/consumreg/consumreg.component';
 import { SidebarComponent } from './Board/sidebar/sidebar.component';
 import { DashboardComponent } from './Board/dashboard/dashboard.component';
+import { MergeComponent } from './Board/merge/merge.component';
+import { ConsumerallComponent } from './Board/Consumers/consumerall/consumerall.component';
+import { NewconsumerComponent } from './Board/Consumers/newconsumer/newconsumer.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent, children: [
@@ -17,7 +20,15 @@ const routes: Routes = [
     { path: 'board', component: BoardComponent },
     { path: 'register', component: ConsumregComponent },
   ]},
-  { path: 'dash', component: SidebarComponent }
+  { path: 'dashboard', component: MergeComponent, children: [
+    { path: '', component: DashboardComponent },
+    { path: 'consumerall', component: ConsumerallComponent, children: [
+      { path: '', component: NewconsumerComponent},
+      { path: 'new', component: ConsumregComponent }
+    ]
+  }
+
+  ]}
 ];
 @NgModule({
   declarations: [
@@ -28,6 +39,9 @@ const routes: Routes = [
     ConsumregComponent,
     SidebarComponent,
     DashboardComponent,
+    MergeComponent,
+    ConsumerallComponent,
+    NewconsumerComponent,
   ],
   imports: [
     BrowserModule,

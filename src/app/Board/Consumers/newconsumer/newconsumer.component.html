@@ -1,0 +1,57 @@
+<div class="check">
+  <a routerLink="new" class="btn btn-primary sizebtn btn-lg">New Consumer Registration</a>
+</div>
+<br>
+<div class="col-12 col-lg-8 col-xxl-9 d-flex">
+  <div class="card flex-fill">
+    <div class="card-header">
+      <div class="card-actions float-right">
+        <div class="dropdown show">
+          <a href="#" data-toggle="dropdown" data-display="static">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal align-middle"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+          </a>
+
+          <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </div>
+      </div>
+      <h5 class="card-title mb-0">Latest Projects</h5>
+    </div>
+    <table class="table table-hover my-0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th class="d-none d-xl-table-cell">Username</th>
+          <th class="d-none d-xl-table-cell">Email</th>
+          <th>Phone</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let x of data">
+          <td class="d-none d-xl-table-cell">{{x.firstname}} {{x.lastname}}</td>
+          <td class="d-none d-xl-table-cell">{{x.username}}</td>
+          <td><span class="badge bg-success">{{ x.email }}</span></td>
+          <td class="d-none d-md-table-cell">{{ x.phone }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<nav aria-label="...">
+  <ul class="pagination pagination-circle">
+    <li class="page-item">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item active" aria-current="page">
+      <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">Next</a>
+    </li>
+  </ul>
+</nav>

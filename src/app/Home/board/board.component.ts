@@ -20,7 +20,7 @@ export class BoardComponent implements OnInit {
      password: data.password },{headers: headers}).subscribe(result => {
       if (result.status == 1){
               localStorage.setItem('token', result.auth);
-              location.replace('/dash');
+              location.replace('/dashboard');
             }
             else{
               location.replace('/');

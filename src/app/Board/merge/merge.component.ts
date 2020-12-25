@@ -1,14 +1,13 @@
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from "../../../environments/environment";
-import * as $ from 'jquery';
-
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  selector: 'app-merge',
+  templateUrl: './merge.component.html',
+  styleUrls: ['./merge.component.css']
 })
-export class SidebarComponent implements OnInit {
+export class MergeComponent implements OnInit {
+
   status=0;
   user;
   constructor(private http: HttpClient) {
@@ -22,11 +21,12 @@ export class SidebarComponent implements OnInit {
              }
   });
 }
+loggedOut(){
+  location.replace('/');
+  }
 
 
   ngOnInit(): void {
-
-    }
-
+  }
 
 }

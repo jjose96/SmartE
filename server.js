@@ -35,7 +35,6 @@ function authenticateToken(req, res, next) {
   if (token == null) return res.sendStatus(401) // if there isn't any token
 
   jwt.verify(token, accessTokenSecret, (err, user) => {
-    console.log(err)
     if (err) return res.status(403).json({"message":"Access denied"})
     req.user = user.board
     next() // pass the execution off to whatever request the client intended
@@ -96,5 +95,59 @@ app.post('/api/login', function(req, res) {
               }
               });
             });
+                });
+
+                app.post('/api/blogin', function(req, res) {
+      var user = req.body.username;
+      var pass = req.body.password;
+      var status=0;
+      let UserRef = db.collection('BoardUsers').where("user","==",user).where("password","==",pass);
+      UserRef.get()
+      .then(function(q) {
+        q.forEach(function(doc) {
+              if(doc.exists){
+                const accessToken = jwt.sign({ board: doc.data().user }, accessTokenSecret);
+              res.status(200).json({"status":"1","auth":accessToken})
+                status=1
+              }
+            })
+            if(status==0){
+              res.status(200).json({"status":"0"})
+            }
+        });
+      });
+
+
+      app.post('/api/ConsumerReg',authenticateToken, function(req, res) {
+        var firstname = req.body.firstname;
+        var lastname = req.body.lastname;
+        var username = req.body.username;
+        var email = req.body.email;
+        var phone = req.body.phone;
+        db.collection("Users").add({
+          firstname: firstname,
+          lastname: lastname,
+          username: username,
+          email: email,
+          phone: phone,
+      })
+        });
+
+        app.post('/api/ConsumerUserInfo',authenticateToken, function(req, res) {
+          let UserRef = db.collection('Users').where("board","==",req.user);
+          let Users = []
+        UserRef.get()
+        .then(function(q) {
+          q.forEach(function(doc) {
+                if(doc.exists){
+                  let use={"username":doc.data().username,"firstname":doc.data().firstname,"lastname":doc.data().lastname,"email":doc.data().email,"phone":doc.data().phone}
+                  Users.push(use);
+                }
+              });
+              res.status(200).json({
+                'status':1,Users
+              });
+                  });
+
                 });
     app.listen(3000);

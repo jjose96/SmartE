@@ -13,6 +13,10 @@ import { DashboardComponent } from './Board/dashboard/dashboard.component';
 import { MergeComponent } from './Board/merge/merge.component';
 import { ConsumerallComponent } from './Board/Consumers/consumerall/consumerall.component';
 import { NewconsumerComponent } from './Board/Consumers/newconsumer/newconsumer.component';
+import { SidebardashComponent } from './Consumers/sidebardash/sidebardash.component';
+import { UserpanelComponent } from './Consumers/userpanel/userpanel.component';
+import { PanelComponent } from './Consumers/panel/panel.component';
+
 
 const routes: Routes = [
   { path: '', component: HomePageComponent, children: [
@@ -27,7 +31,9 @@ const routes: Routes = [
       { path: 'new', component: ConsumregComponent }
     ]
   }
-
+  ]},
+  { path: 'userpanel', component: UserpanelComponent, children: [
+    { path: '', component: PanelComponent }
   ]}
 ];
 @NgModule({
@@ -42,6 +48,9 @@ const routes: Routes = [
     MergeComponent,
     ConsumerallComponent,
     NewconsumerComponent,
+    SidebardashComponent,
+    UserpanelComponent,
+    PanelComponent,
   ],
   imports: [
     BrowserModule,

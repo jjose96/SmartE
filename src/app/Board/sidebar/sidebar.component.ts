@@ -1,7 +1,6 @@
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from "../../../environments/environment";
-import * as $ from 'jquery';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,7 +22,10 @@ export class SidebarComponent implements OnInit {
   });
 }
 
-
+OnLogout(){
+  localStorage.removeItem('token');
+  location.replace('/board');
+}
   ngOnInit(): void {
 
     }

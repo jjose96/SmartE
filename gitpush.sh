@@ -1,3 +1,3 @@
 git add .
-git commit -m "Regular update on development stage"
+git commit -m "Consumer portal added"
 git push origin main

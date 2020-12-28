@@ -13,9 +13,19 @@ export class ConsumerComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  state=1;
   OnSubmit(data){
     this.http.post<any>(environment.url+'/api/login', { username: data.username,
      password: data.password }).subscribe(result => {
+      if (result.status == 1){
+              localStorage.setItem('token', result.auth);
+              location.replace('/userpanel');
+            }
+            else{
+              if(result.status==0){
+                this.state=0
+              }
+            }
   });
 }
 }

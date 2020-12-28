@@ -1,57 +1,51 @@
-<div class="check">
+ <div class="check">
   <a routerLink="new" class="btn btn-primary sizebtn btn-lg">New Consumer Registration</a>
 </div>
 <br>
-<div class="col-12 col-lg-8 col-xxl-9 d-flex">
-  <div class="card flex-fill">
-    <div class="card-header">
-      <div class="card-actions float-right">
-        <div class="dropdown show">
-          <a href="#" data-toggle="dropdown" data-display="static">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal align-middle"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
-          </a>
+ <!-- Editable table -->
+<div class="card">
+  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Consumers</h3>
+  <div class="card-body">
+    <div id="table" class="table-editable">
+      <span class="table-add float-right mb-3 mr-2">
 
-          <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </div>
-      </div>
-      <h5 class="card-title mb-0">Latest Projects</h5>
-    </div>
-    <table class="table table-hover my-0">
-      <thead>
+      </span>
+      <table class="table table-bordered table-responsive-md table-striped text-center">
         <tr>
-          <th>Name</th>
-          <th class="d-none d-xl-table-cell">Username</th>
-          <th class="d-none d-xl-table-cell">Email</th>
-          <th>Phone</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">CosumerId</th>
+          <th class="text-center">Email</th>
+          <th class="text-center">Phone</th>
+          <th class="text-center">Status</th>
+          <th class="text-center">Remove</th>
         </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let x of data">
-          <td class="d-none d-xl-table-cell">{{x.firstname}} {{x.lastname}}</td>
-          <td class="d-none d-xl-table-cell">{{x.username}}</td>
-          <td><span class="badge bg-success">{{ x.email }}</span></td>
-          <td class="d-none d-md-table-cell">{{ x.phone }}</td>
+        <tr *ngFor="let person of personList; let id = index">
+          <td>
+            <span (keyup)="changeValue(id, 'name', $event)" (blur)="updateList(id, 'name', $event)" contenteditable="true">{{person.firstname}} {{person.lastname}}</span>
+          </td>
+          <td>
+            <span contenteditable="true" (keyup)="changeValue(id, 'age', $event)" (blur)="updateList(id, 'age', $event)">{{person.username}}</span>
+          </td>
+          <td>
+            <span contenteditable="true" (keyup)="changeValue(id, 'companyName', $event)" (blur)="updateList(id, 'companyName', $event)">{{person.email}}</span>
+          </td>
+          <td>
+            <span contenteditable="true" (keyup)="changeValue(id, 'city', $event)" (blur)="updateList(id, 'city', $event)">{{person.phone}}</span>
+          </td>
+          <td *ngIf="person.status==0">
+            <span contenteditable="true" (keyup)="changeValue(id, 'city', $event)" (blur)="updateList(id, 'city', $event)" *ngIf="person.status==0">{{inact}}</span>
+          </td>
+          <td *ngIf="person.status==1">
+            <span contenteditable="true" (keyup)="changeValue(id, 'city', $event)" (blur)="updateList(id, 'city', $event)" *ngIf="person.status==1">{{act}}</span>
+          </td>
+          <td>
+            <span class="table-remove">
+              <button type="button" class="btn btn-primary" color="danger" rounded="true" size="sm" (click)="remove(id,person.username)">Remove</button>
+            </span>
+          </td>
         </tr>
-      </tbody>
-    </table>
+      </table>
+    </div>
   </div>
 </div>
-<nav aria-label="...">
-  <ul class="pagination pagination-circle">
-    <li class="page-item">
-      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item active" aria-current="page">
-      <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">Next</a>
-    </li>
-  </ul>
-</nav>
+<!-- Editable table -->

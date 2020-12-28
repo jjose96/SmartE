@@ -15,7 +15,10 @@ OnSubmit(data){
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', 'Bearer '+token);
     this.http.post<any>(environment.url+'/api/ConsumerReg',{firstname:data.firstname,lastname:data.lastname,username:data.username,email:data.email,phone:data.phone},{headers: headers}).subscribe(result => {
-
+      var use= confirm("User is added");
+      if(use){
+        location.replace('/dashboard/consumerall')
+      }
   });
 }
   ngOnInit(): void {

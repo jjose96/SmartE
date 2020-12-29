@@ -16,6 +16,8 @@ import { NewconsumerComponent } from './Board/Consumers/newconsumer/newconsumer.
 import { SidebardashComponent } from './Consumers/sidebardash/sidebardash.component';
 import { UserpanelComponent } from './Consumers/userpanel/userpanel.component';
 import { PanelComponent } from './Consumers/panel/panel.component';
+import { UsagesComponent } from './Consumers/usages/usages.component';
+import { BillComponent } from './Consumers/bill/bill.component';
 
 
 const routes: Routes = [
@@ -33,7 +35,10 @@ const routes: Routes = [
   }
   ]},
   { path: 'userpanel', component: UserpanelComponent, children: [
-    { path: '', component: PanelComponent }
+    { path: '', component: PanelComponent },
+    {path:'usages',component:UsagesComponent},
+    {path:'bills',component:BillComponent}
+
   ]}
 ];
 @NgModule({
@@ -51,6 +56,8 @@ const routes: Routes = [
     SidebardashComponent,
     UserpanelComponent,
     PanelComponent,
+    UsagesComponent,
+    BillComponent,
   ],
   imports: [
     BrowserModule,

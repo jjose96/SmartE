@@ -29,7 +29,7 @@
                         ],
                         "scripts": [
                             "src/assets/test.js",
-                            "src/assets/chart.js",
+                            "src/assets/chart.js"
                         ]
                     },
                     "configurations": {

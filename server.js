@@ -5,7 +5,6 @@ const app = express();
 const jwt = require('jsonwebtoken');
 app.use(cors());
 const body_parser = require('body-parser');
-const nodemailer = require('nodemailer');
 app.use(body_parser.json());
 app.use(body_parser.urlencoded({
     extended: true

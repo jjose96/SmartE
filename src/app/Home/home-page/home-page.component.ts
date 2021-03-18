@@ -9,7 +9,6 @@ import { HttpClient } from '@angular/common/http';
 export class HomePageComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
-
   ngOnInit(): void {
   }
   OnSubmit(data){

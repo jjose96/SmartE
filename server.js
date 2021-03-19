@@ -27,26 +27,7 @@ app.get('/*', function(req, res) {
 
     res.sendFile(path.join(__dirname + '/dist/SmartE/index.html'));
 });
-app.post('/api/login', function(req, res) {
-    var user = req.body.user;
-    var pass = req.body.pass;
-    var status = 0;
-    console.log(user, pass)
-    let UserRef = db.collection('Users').where("user", "==", user).where("pass", "==", pass);
-    UserRef.get()
-        .then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                console.log(doc.data())
-                if (doc.exists) {
-                    res.status(200).json({ "status": "1" })
-                    status = 1
-                }
-            })
-            if (status == 0) {
-                res.status(200).json({ "status": "0" })
-            }
-        });
-});
+
 
 const accessTokenSecret = 'youraccesstokensecret';
 const consumerTokenSecret = 'newtokenundreadable';
@@ -111,25 +92,6 @@ app.post("/api/boardInfo", authenticateToken, function(req, res) {
         });
 });
 
-app.post('/api/blogin', function(req, res) {
-    var user = req.body.username;
-    var pass = req.body.password;
-    var status = 0;
-    let UserRef = db.collection('BoardUsers').where("user", "==", user).where("password", "==", pass);
-    UserRef.get()
-        .then(function(q) {
-            q.forEach(function(doc) {
-                if (doc.exists) {
-                    const accessToken = jwt.sign({ board: doc.data().user }, accessTokenSecret);
-                    res.status(200).json({ "status": "1", "auth": accessToken })
-                    status = 1
-                }
-            })
-            if (status == 0) {
-                res.status(200).json({ "status": "0" })
-            }
-        });
-});
 
 
 app.post('/api/ConsumerReg', authenticateToken, function(req, res) {

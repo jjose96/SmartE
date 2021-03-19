@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'https://smarte.herokuapp.com/'
+  url: 'https://smarte.herokuapp.com'
 
 };
 

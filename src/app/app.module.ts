@@ -18,6 +18,9 @@ import { UserpanelComponent } from './Consumers/userpanel/userpanel.component';
 import { PanelComponent } from './Consumers/panel/panel.component';
 import { UsagesComponent } from './Consumers/usages/usages.component';
 import { BillComponent } from './Consumers/bill/bill.component';
+import { ConsumerpendingComponent } from './Board/Consumers/consumerpending/consumerpending.component';
+import { ProfileComponent } from './Consumers/profile/profile.component';
+import { BillsComponent } from './Board/bills/bills.component';
 
 
 const routes: Routes = [
@@ -32,12 +35,16 @@ const routes: Routes = [
       { path: '', component: NewconsumerComponent},
       { path: 'new', component: ConsumregComponent }
     ]
-  }
+  },
+  {path:'pending',component:ConsumerpendingComponent},
+  {path:'bills',component:BillsComponent}
   ]},
   { path: 'userpanel', component: UserpanelComponent, children: [
     { path: '', component: PanelComponent },
     {path:'usages',component:UsagesComponent},
-    {path:'bills',component:BillComponent}
+    {path:'bills',component:BillComponent},
+    {path:'profile',component:ProfileComponent}
+
 
   ]}
 ];
@@ -58,7 +65,8 @@ const routes: Routes = [
     PanelComponent,
     UsagesComponent,
     BillComponent,
-  ],
+    ProfileComponent,
+    BillsComponent,  ],
   imports: [
     BrowserModule,
     FormsModule,

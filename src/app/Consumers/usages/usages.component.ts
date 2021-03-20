@@ -7,7 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsagesComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    (function()
+    {
+      if( window.localStorage )
+      {
+        if( !localStorage.getItem('firstLoad') )
+        {
+          localStorage['firstLoad'] = true;
+          window.location.reload();
+        }
+        else
+          localStorage.removeItem('firstLoad');
+      }
+    })();
+  }
 
   ngOnInit(): void {
   }

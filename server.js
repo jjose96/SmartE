@@ -88,6 +88,27 @@ app.post('/api/blogin', function(req, res) {
         });
 });
 
+app.post('/api/login', function(req, res) {
+  var user = req.body.username;
+  var pass = req.body.password;
+  console.log(user, pass);
+  var status = 0;
+  let UserRef = db.collection('Users').where("username", "==", user).where("password", "==", pass);
+  UserRef.get()
+      .then(function(q) {
+          q.forEach(function(doc) {
+              if (doc.exists) {
+                  console.log("hello")
+                  const accessToken = jwt.sign({ consumerId: doc.data().username }, consumerTokenSecret);
+                  res.status(200).json({ "status": "1", "auth": accessToken })
+                  status = 1
+              }
+          })
+          if (status == 0) {
+              res.status(200).json({ "status": "0" })
+          }
+      });
+});
 app.post("/api/boardInfo", authenticateToken, function(req, res) {
     let UserRef = db.collection('BoardUsers').where("user", "==", req.user);
     UserRef.get()
@@ -176,27 +197,6 @@ app.post('/api/RemoveConsumerUserInfo', authenticateToken, function(req, res) {
     });
 });
 
-app.post('/api/login', function(req, res) {
-    var user = req.body.username;
-    var pass = req.body.password;
-    console.log(user, pass);
-    var status = 0;
-    let UserRef = db.collection('Users').where("username", "==", user).where("password", "==", pass);
-    UserRef.get()
-        .then(function(q) {
-            q.forEach(function(doc) {
-                if (doc.exists) {
-                    console.log("hello")
-                    const accessToken = jwt.sign({ consumerId: doc.data().username }, consumerTokenSecret);
-                    res.status(200).json({ "status": "1", "auth": accessToken })
-                    status = 1
-                }
-            })
-            if (status == 0) {
-                res.status(200).json({ "status": "0" })
-            }
-        });
-});
 
 
 app.post("/api/userInfo", conAuth, function(req, res) {

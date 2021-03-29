@@ -42,18 +42,8 @@ function authenticateToken(req, res, next) {
     req.user = user.board
     next()
   })
+}
 
-    // Gather the jwt access token from the request header
-    const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401) // if there isn't any token
-
-    jwt.verify(token, accessTokenSecret, (err, user) => {
-        if (err) return res.status(200).json({ "status": "0" })
-        req.user = user.board
-        next() // pass the execution off to whatever request the client intended
-    })
-  }
 
 function conAuth(req, res, next) {
     // Gather the jwt access token from the request header
@@ -110,6 +100,7 @@ app.post('/api/login', function(req, res) {
       });
 });
 app.post("/api/boardInfo", authenticateToken, function(req, res) {
+  console.log("Test")
     let UserRef = db.collection('BoardUsers').where("user", "==", req.user);
     UserRef.get()
         .then(function(q) {
@@ -213,4 +204,4 @@ app.post("/api/userInfo", conAuth, function(req, res) {
         });
 });
 
-app.listen(process.env.PORT || 8080);
+app.listen(process.env.PORT || 3000);

@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  url: 'https://smarte.herokuapp.com'
+  url: 'http://localhost:3000'
 
 };

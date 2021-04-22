@@ -42,18 +42,8 @@ function authenticateToken(req, res, next) {
     req.user = user.board
     next()
   })
+}
 
-    // Gather the jwt access token from the request header
-    const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401) // if there isn't any token
-
-    jwt.verify(token, accessTokenSecret, (err, user) => {
-        if (err) return res.status(200).json({ "status": "0" })
-        req.user = user.board
-        next() // pass the execution off to whatever request the client intended
-    })
-  }
 
 function conAuth(req, res, next) {
     // Gather the jwt access token from the request header
@@ -88,7 +78,29 @@ app.post('/api/blogin', function(req, res) {
         });
 });
 
+app.post('/api/login', function(req, res) {
+  var user = req.body.username;
+  var pass = req.body.password;
+  console.log(user, pass);
+  var status = 0;
+  let UserRef = db.collection('Users').where("username", "==", user).where("password", "==", pass);
+  UserRef.get()
+      .then(function(q) {
+          q.forEach(function(doc) {
+              if (doc.exists) {
+                  console.log("hello")
+                  const accessToken = jwt.sign({ consumerId: doc.data().username }, consumerTokenSecret);
+                  res.status(200).json({ "status": "1", "auth": accessToken })
+                  status = 1
+              }
+          })
+          if (status == 0) {
+              res.status(200).json({ "status": "0" })
+          }
+      });
+});
 app.post("/api/boardInfo", authenticateToken, function(req, res) {
+  console.log("Test")
     let UserRef = db.collection('BoardUsers').where("user", "==", req.user);
     UserRef.get()
         .then(function(q) {
@@ -176,27 +188,6 @@ app.post('/api/RemoveConsumerUserInfo', authenticateToken, function(req, res) {
     });
 });
 
-app.post('/api/login', function(req, res) {
-    var user = req.body.username;
-    var pass = req.body.password;
-    console.log(user, pass);
-    var status = 0;
-    let UserRef = db.collection('Users').where("username", "==", user).where("password", "==", pass);
-    UserRef.get()
-        .then(function(q) {
-            q.forEach(function(doc) {
-                if (doc.exists) {
-                    console.log("hello")
-                    const accessToken = jwt.sign({ consumerId: doc.data().username }, consumerTokenSecret);
-                    res.status(200).json({ "status": "1", "auth": accessToken })
-                    status = 1
-                }
-            })
-            if (status == 0) {
-                res.status(200).json({ "status": "0" })
-            }
-        });
-});
 
 
 app.post("/api/userInfo", conAuth, function(req, res) {
@@ -213,4 +204,4 @@ app.post("/api/userInfo", conAuth, function(req, res) {
         });
 });
 
-app.listen(process.env.PORT || 8080);
+app.listen(process.env.PORT || 3000);
